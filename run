@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'metainspector'
+require 'json'
+require 'csv'
+
+require 'pry'
+
+if !ARGV[0]
+  puts "You forgot to give me a URL to scrape."
+else
+  url = ARGV[0].chomp
+  puts "Scraping #{url}"
+  begin
+    page = MetaInspector.new(url)
+  rescue
+    puts "Couldn't connect to url [#{url}]"
+    exit!
+  end
+  host = page.host
+  title = page.best_title
+  payload = {
+    host: host,
+    title: title,
+    description: page.best_description,
+    tags: Hash[ page.meta.sort_by { |key, val| key } ],
+    external: page.links.external,
+    internal: page.links.internal
+  }
+
+  # create the json & CSV dump dirs if they don't exist
+  system 'mkdir', '-p', "sites/#{host}"
+  system 'mkdir', '-p', "csv/#{host}"
+
+  print "Dumping JSON... "
+  # dump the json
+  File.open("sites/#{host}/#{title}.json", "w") do |f|
+    f.write(payload.to_json)
+  end
+  puts "success"
+
+  print "Dumping CSV... "
+  CSV.open("csv/#{host}/#{title}.csv", "wb") do |csv|
+    csv << page.meta.keys.unshift('title')
+    csv << page.meta.values.unshift(title)
+  end
+  puts "success"
+
+  print "Updating scraped hosts... "
+  Dir.chdir('sites')
+  host_dirs = Dir.glob('*').select {|f| File.directory? f}
+  Dir.chdir('..')
+  hosts_data = host_dirs.map do |h|
+    entry_list = Dir.entries("sites/" + h).select { |f| !File.directory? f }
+    entries = entry_list.map {|entry| JSON.parse(File.read("sites/#{h}/#{entry}"))}
+    {
+      host: h,
+      entries: entries
+    }
+  end
+  File.open("hosts.js", "w") do |f|
+    # f.write("window.hosts_data = {#{hosts.map {|h| "'#{h}':{}"}.join(', ')}};")
+    f.write("window.hosts = #{hosts_data.to_json};")
+  end
+  puts "success"
+end

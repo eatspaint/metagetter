@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>metagetter</title>
+    <link type="text/css" href="styles/normalize.css" rel="stylesheet"/>
+    <link type="text/css" href="styles/skeleton.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/clipboard@1.7.1/dist/clipboard.min.js"></script>
+    <script src="hosts.js"></script>
+  </head>
+  <body>
+    <div id='content'></div>
+    <script type="text/babel">
+      var Host = React.createClass({
+        getInitialState: function() {
+          return {name: this.props.host.host, entries: this.props.host.entries};
+        },
+        printEntries: function(styles) {
+          return this.state.entries.map( (entry) => {
+            return(<li key={entry.title} style={this.props.selected && this.props.selected.title == entry.title ? styles.selectedEntry : styles.entry} onClick={()=>{this.props.entryClick(entry)}}>{entry.title}</li>);
+          });
+        },
+        render: function() {
+          var styles = {
+            entryList: {
+              listStyle: 'none',
+              margin: '0',
+            },
+            entry: {
+              cursor: 'pointer',
+              color: '#000',
+              margin: '0',
+              padding: '4px',
+              paddingLeft: '8px',
+            },
+            selectedEntry: {
+              cursor: 'pointer',
+              color: '#fff',
+              background: '#2b69d2',
+              margin: '0',
+              padding: '4px',
+              paddingLeft: '8px',
+            },
+            host: {
+              background: '#eee',
+              width: '100%',
+              borderRadius: '0 4px 4px 0',
+              padding: '4px',
+              border: '1px solid #d1d1d1',
+              borderLeft: 'none',
+            },
+            hostTitle: {
+              fontWeight: '200',
+            },
+          }
+          return(
+            <li style={{margin: '0', fontSize: '13px'}}>
+              <div style={styles.host}>
+                <b style={styles.hostTitle}>{this.state.name}</b>
+              </div>
+              <ul style={styles.entryList}>{this.printEntries(styles)}</ul>
+            </li>
+          );
+        }
+      });
+
+      var EntryView = React.createClass({
+        render: function() {
+          let entry = this.props.entry;
+          var styles = {
+            tableKey: {
+              maxWidth: '150px',
+              overflowX: 'hidden',
+              textAlign: 'right',
+              padding: '4px 6px',
+            },
+            tableData: {
+              padding: '4px 6px',
+            },
+            label: {
+              color: '#999',
+              fontSize: '11px',
+              fontWeight: '400',
+              margin: '0',
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase',
+            },
+            content: {
+              borderBottom: '1px solid #eee',
+              margin: '0',
+              paddingBottom: '6px',
+              marginBottom: '18px',
+              fontSize: '13px',
+              lineHeight: '18px',
+            },
+          }
+          if (entry) {
+            // host, title, description, tags, external, internal,
+            return(
+              <div style={{marginRight: '4px'}}>
+                <label style={styles.label}>Title</label>
+                <p style={styles.content}>{entry.title}</p>
+                <label style={styles.label}>Host</label>
+                <p style={styles.content}>{entry.host}</p>
+                <label style={styles.label}>Description</label>
+                <p style={styles.content}>{entry.description}</p>
+                <label style={styles.label}>Meta Tags</label>
+                <table style={styles.content}>
+                  <thead>
+                    <tr>
+                      <td style={styles.tableKey}><b>Tag</b></td>
+                      <td style={styles.tableData}>Value</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(entry.tags).map( (tag) => {
+                      return(
+                        <tr key={tag}>
+                          <td style={styles.tableKey}><b>{tag}</b></td>
+                          <td style={styles.tableData}>{entry.tags[tag]}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+                <label style={styles.label}>Internal Links</label>
+                <table style={styles.content}>
+                  <tbody>
+                    {entry.internal.map( (link) => {
+                      return(
+                        <tr key={link}>
+                        <td style={styles.tableData}>{link}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+                <label style={styles.label}>External Links</label>
+                <table style={styles.content}>
+                  <tbody>
+                    {entry.external.map( (link) => {
+                      return(
+                        <tr key={link}>
+                        <td style={styles.tableData}>{link}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            );
+          } else {
+            return(<p style={{fontSize: '13px', color: '#000', textAlign: 'center', paddingTop: '6px'}}>← Choose a scraped page from the left to view metadata.</p>)
+          }
+        }
+      });
+
+      var Main = React.createClass({
+        getInitialState: function() {
+          return {hosts: window.hosts, selectedEntry: null, commandURL: ''};
+        },
+        entryClick: function(entry) {
+          this.setState({selectedEntry: entry});
+        },
+        printHosts: function() {
+          if (this.state.hosts.length > 0) {
+            return this.state.hosts.map( (host) => {
+              return(
+                <Host key={host.host}
+                      host={host}
+                      entryClick={this.entryClick}
+                      selected={this.state.selectedEntry}/>
+              );
+            })
+          } else {
+            return(<li>Looks like you still need to scrape some sites.</li>);
+          }
+        },
+        render: function() {
+          var styles = {
+            hostList: {
+              listStyle: 'none',
+            },
+            urlInput: {
+              minWidth: '30%',
+              maxWidth: '100%',
+              margin: '16px',
+            },
+            title: {
+              marginBottom: '0',
+            },
+            titleBar: {
+              display: 'flex',
+              alignItems: 'center',
+              // justifyContent: 'space-between',
+              background: '#eee',
+              borderBottom: '1px solid #d1d1d1',
+              padding: '4px 16px',
+            },
+            codeDisplay: {
+              overflowX: 'hidden',
+              padding: '8px',
+              marginRight: '8px',
+              maxWidth: '100%',
+            },
+            codeClear: {
+              margin: '16px',
+              marginLeft: '0',
+            },
+            codeCopy: {
+              margin: '0',
+              marginLeft: '8px',
+              background: '#2b69d2',
+              color: '#fff',
+              border: 'none',
+            },
+            codeBlock: {
+              display: 'flex',
+              alignItems: 'center',
+              // justifyContent: 'space-between',
+              fontSize: '13px',
+              margin: '0 8px 18px 8px',
+            },
+            instruction : {
+              margin: '0',
+              padding: '18px 8px 0 12px',
+              fontSize: '13px',
+              color: '#999',
+              letterSpacing: '0.5px',
+            },
+          }
+          return (
+            <div>
+            <div style={styles.titleBar}>
+              <h3 style={styles.title}>metagetter</h3>
+              <input type='text' style={styles.urlInput} value={this.state.commandURL} placeholder='Enter a url to scrape' onChange={(e) => {this.setState({commandURL: e.target.value})}} />
+              <button style={styles.codeClear} onClick={()=>{this.setState({commandURL: ''})}}>clear</button>
+            </div>
+              <p style={styles.instruction}>Run this command from the terminal to scrape a site:</p>
+              <div style={styles.codeBlock}>
+                <code id='copytarget' style={styles.codeDisplay}>{window.location.pathname.replace('index.html', '')}run {this.state.commandURL}</code>
+                <button id='copybtn' style={styles.codeCopy} data-clipboard-target='#copytarget' >copy</button>
+              </div>
+              <div className='row'>
+                <div className='five columns'>
+                  <ul style={styles.hostList}>{this.printHosts()}</ul>
+                </div>
+                <div className='seven columns'>
+                  <EntryView entry={this.state.selectedEntry} />
+                </div>
+              </div>
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <Main />,
+        document.getElementById('content')
+      );
+    </script>
+    <script>
+      var clipboard = new Clipboard('#copybtn');
+      clipboard.on('success', function(e) {
+        e.clearSelection();
+      });
+    </script>
+  </body>
+</html>
