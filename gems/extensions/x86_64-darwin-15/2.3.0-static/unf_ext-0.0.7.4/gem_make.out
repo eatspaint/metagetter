@@ -1,5 +1,5 @@
 current directory: /Users/christianfuller/Desktop/metagetter/gems/gems/unf_ext-0.0.7.4/ext/unf_ext
-/Users/christianfuller/.rbenv/versions/2.3.1/bin/ruby -r ./siteconf20170923-4467-1qmwgjp.rb extconf.rb
+/Users/christianfuller/.rbenv/versions/2.3.1/bin/ruby -r ./siteconf20170925-99259-5x19t.rb extconf.rb
 checking for main() in -lstdc++... yes
 creating Makefile
 
@@ -39,4 +39,4 @@ linking shared-object unf_ext.bundle
 
 current directory: /Users/christianfuller/Desktop/metagetter/gems/gems/unf_ext-0.0.7.4/ext/unf_ext
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 unf_ext.bundle ./.gem.20170923-4467-g8p78b
+/usr/bin/install -c -m 0755 unf_ext.bundle ./.gem.20170925-99259-15dsxlo

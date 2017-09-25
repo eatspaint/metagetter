@@ -3,7 +3,6 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'metainspector'
-require 'json'
 require 'csv'
 
 require 'pry'
@@ -42,10 +41,10 @@ else
   puts "success"
 
   print "Dumping CSV... "
-  CSV.open("csv/#{host}/#{title}.csv", "wb") do |csv|
-    csv << page.meta.keys.unshift('title')
-    csv << page.meta.values.unshift(title)
-  end
+  # CSV.open("csv/#{host}/#{title}.csv", "wb") do |csv|
+  #   csv << page.meta.keys.unshift('title')
+  #   csv << page.meta.values.unshift(title)
+  # end
   puts "success"
 
   print "Updating scraped hosts... "
