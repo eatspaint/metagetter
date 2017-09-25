@@ -177,7 +177,15 @@
               );
             })
           } else {
-            return(<li>Looks like you still need to scrape some sites.</li>);
+            return(
+              <li>
+                <p>
+                  Your terminal command for step 3 of the README:
+                  <br />
+                  <code>cd {window.location.pathname.replace('index.html', '')}</code>
+                </p>
+              </li>
+            );
           }
         },
         render: function() {
