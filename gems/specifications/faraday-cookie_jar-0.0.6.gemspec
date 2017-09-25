@@ -1,22 +1,19 @@
 # -*- encoding: utf-8 -*-
-# stub: faraday-cookie_jar 0.0.6 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "faraday-cookie_jar"
   s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
   s.authors = ["Tatsuhiko Miyagawa"]
   s.date = "2014-01-22"
   s.description = "Cookie jar middleware for Faraday"
   s.email = ["miyagawa@bulknews.net"]
   s.homepage = "https://github.com/miyagawa/faraday-cookie_jar"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.5.1"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "2.0.14.1"
   s.summary = "Manages client-side cookie jar for Faraday HTTP client"
-
-  s.installed_by_version = "2.5.1" if s.respond_to? :installed_by_version
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

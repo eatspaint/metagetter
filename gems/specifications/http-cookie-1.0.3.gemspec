@@ -1,24 +1,21 @@
 # -*- encoding: utf-8 -*-
-# stub: http-cookie 1.0.3 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "http-cookie"
   s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
   s.authors = ["Akinori MUSHA", "Aaron Patterson", "Eric Hodel", "Mike Dalessio"]
   s.date = "2016-09-30"
   s.description = "HTTP::Cookie is a Ruby library to handle HTTP Cookies based on RFC 6265.  It has with security, standards compliance and compatibility in mind, to behave just the same as today's major web browsers.  It has builtin support for the legacy cookies.txt and the latest cookies.sqlite formats of Mozilla Firefox, and its modular API makes it easy to add support for a new backend store."
   s.email = ["knu@idaemons.org", "aaronp@rubyforge.org", "drbrain@segment7.net", "mike.dalessio@gmail.com"]
   s.extra_rdoc_files = ["README.md", "LICENSE.txt"]
-  s.files = ["LICENSE.txt", "README.md"]
+  s.files = ["README.md", "LICENSE.txt"]
   s.homepage = "https://github.com/sparklemotion/http-cookie"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.5.1"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "2.0.14.1"
   s.summary = "A Ruby library to handle HTTP Cookies based on RFC 6265"
-
-  s.installed_by_version = "2.5.1" if s.respond_to? :installed_by_version
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

@@ -1,12 +1,10 @@
 # -*- encoding: utf-8 -*-
-# stub: pry 0.11.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "pry"
   s.version = "0.11.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
   s.authors = ["John Mair (banisterfiend)", "Conrad Irwin", "Ryan Fitzgerald"]
   s.date = "2017-09-20"
   s.description = "An IRB alternative and runtime developer console"
@@ -15,11 +13,10 @@ Gem::Specification.new do |s|
   s.files = ["bin/pry"]
   s.homepage = "http://pryrepl.org"
   s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.3")
-  s.rubygems_version = "2.5.1"
+  s.rubygems_version = "2.0.14.1"
   s.summary = "An IRB alternative and runtime developer console"
-
-  s.installed_by_version = "2.5.1" if s.respond_to? :installed_by_version
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

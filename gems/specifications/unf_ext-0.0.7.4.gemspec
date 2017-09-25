@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
-# stub: unf_ext 0.0.7.4 ruby lib
-# stub: ext/unf_ext/extconf.rb
 
 Gem::Specification.new do |s|
   s.name = "unf_ext"
   s.version = "0.0.7.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
   s.authors = ["Takeru Ohta", "Akinori MUSHA"]
   s.date = "2017-04-18"
   s.description = "Unicode Normalization Form support library for CRuby"
@@ -17,10 +14,9 @@ Gem::Specification.new do |s|
   s.files = ["LICENSE.txt", "README.md", "ext/unf_ext/extconf.rb"]
   s.homepage = "https://github.com/knu/ruby-unf_ext"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.5.1"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "2.0.14.1"
   s.summary = "Unicode Normalization Form support library for CRuby"
-
-  s.installed_by_version = "2.5.1" if s.respond_to? :installed_by_version
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
