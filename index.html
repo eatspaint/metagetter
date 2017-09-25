@@ -242,7 +242,7 @@
             </div>
               <p style={styles.instruction}>Run this command from the terminal to scrape a site:</p>
               <div style={styles.codeBlock}>
-                <code id='copytarget' style={styles.codeDisplay}>{window.location.pathname.replace('index.html', '')}run {this.state.commandURL}</code>
+                <code id='copytarget' style={styles.codeDisplay}>bundle exec {window.location.pathname.replace('index.html', '')}run {this.state.commandURL}</code>
                 <button id='copybtn' style={styles.codeCopy} data-clipboard-target='#copytarget' >copy</button>
               </div>
               <div className='row'>
