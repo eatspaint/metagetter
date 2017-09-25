@@ -9,6 +9,6 @@ gets meta tags from the internets and shows em to ya
 5. When prompted for password, enter your computer password (this will not show up as you type, type it all in and hit enter when finished)
 6. Then, run `bundle install --local`
 7. You might be prompted for a password again, possibly more than once, it won't show up when you type, just do the same as before and hit enter when finished.
-8. Paste the URL of a site you want to scrape into the input at the top.
+8. Paste the URL of a site you want to scrape into the input at the top of the webpage.
 9. Paste the command that appears into your terminal and hit enter.
 10. Refresh the page in your browser and see the scraped metadata.
